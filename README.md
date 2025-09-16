@@ -1,8 +1,5 @@
 # KansaiTraveler
 
-![Logo](docs/logo.png)  
-※ロゴは [Hatchful](https://www.shopify.com/tools/logo-maker) などの無料サービスで作成できます。
-
 ## 概要
 KansaiTraveler は、関西エリアの旅行先での思い出や体験を共有できる Web アプリケーションです。  
 ユーザーは訪れた場所・感想・写真を投稿し、他の旅行者と情報を交換できます。  
