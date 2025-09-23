@@ -99,6 +99,17 @@ ja:
     logout: ログアウト
     signup: 新規登録
 
+  users:
+    show:
+      posts_count: "投稿: %{count}件"
+      followers_count: "フォロワー: %{count}人"
+      following_count: "フォロー: %{count}人"
+      posts_heading: 投稿一覧
+      no_posts: まだ投稿がありません
+      follow: フォロー
+      unfollow: フォロー解除
+      send_message: メッセージを送る
+
   helpers:
     page_entries_info:
       more_pages:

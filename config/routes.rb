@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   # Devise
   devise_for :users
 
+  # Users
+  resources :users, only: [:show]
+
   # Root
   root to: "posts#index"
 

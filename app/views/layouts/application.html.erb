@@ -15,7 +15,7 @@
       <nav class="site-nav">
         <%= link_to t("nav.home"), root_path, class: "nav-link" %>
         <% if user_signed_in? %>
-          <span class="nav-text"><%= current_user.display_name %></span>
+          <%= link_to current_user.display_name, user_path(current_user), class: "nav-link" %>
           <%= link_to t("nav.new_post"), new_post_path, class: "nav-link" %>
           <%= button_to t("nav.logout"), destroy_user_session_path, method: :delete, class: "nav-button" %>
         <% else %>
