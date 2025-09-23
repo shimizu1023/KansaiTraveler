@@ -86,3 +86,30 @@ ja:
     login: ログイン
     logout: ログアウト
     signup: 新規登録
+
+  helpers:
+    page_entries_info:
+      more_pages:
+        display_entries: "%{entry_name}の%{first} - %{last}件を表示（全%{total}件）"
+      one_page:
+        display_entries:
+          one: "%{entry_name}は1件だけ表示"
+          other: "%{entry_name}は全%{count}件表示"
+  views:
+    pagination:
+      first: "最初"
+      last: "最後"
+      previous: "前へ"
+      next: "次へ"
+      truncate: "..."
+
+  time:
+    formats:
+      default: "%Y/%m/%d %H:%M"
+      short: "%m/%d %H:%M"
+      long: "%Y年%m月%d日(%a) %H時%M分"
+  date:
+    formats:
+      default: "%Y/%m/%d"
+      short: "%m/%d"
+      long: "%Y年%m月%d日(%a)"
