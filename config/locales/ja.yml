@@ -52,9 +52,9 @@ ja:
       destroy: 削除
       destroy_confirm: 本当に削除しますか？
       back: 一覧に戻る
-      author: 作成者: %{name}
-      views: 閲覧数: %{count}
-      likes: いいね: %{count}
+      author: "作成者: %{name}"
+      views: "閲覧数: %{count}"
+      likes: "いいね: %{count}"
       login_to_like: いいねするにはログインしてください
       comments: コメント
       anonymous: 匿名
