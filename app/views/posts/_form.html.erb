@@ -1,0 +1,54 @@
+<%= form_with(model: post, html: { class: "post-form" }) do |form| %>
+  <% if post.errors.any? %>
+    <div class="form-errors">
+      <h2><%= t("posts.form.error_heading", count: post.errors.count) %></h2>
+      <ul>
+        <% post.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :category_id, t("activerecord.attributes.post.category") %>
+    <%= form.collection_select :category_id, @categories, :id, :name, { prompt: t("posts.form.category_prompt") }, class: "form-select" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :post, t("activerecord.attributes.post.post") %>
+    <%= form.text_area :post, rows: 8, class: "form-textarea" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :images, t("posts.form.images_label") %>
+    <%= form.file_field :images, multiple: true, direct_upload: true, accept: "image/png,image/jpeg,image/jpg,image/gif", class: "form-file" %>
+    <p class="form-hint"><%= t("posts.form.images_hint", limit: Post::MAX_IMAGE_COUNT) %></p>
+  </div>
+
+  <% if post.images.attached? %>
+    <div class="form-existing-images">
+      <p class="form-existing-images__title"><%= t("posts.form.current_images") %></p>
+      <div class="form-existing-images__grid">
+        <% post.images.each do |image| %>
+          <div class="form-existing-images__item">
+            <% if image.variable? %>
+              <%= image_tag image.variant(resize_to_fill: [160, 160]), class: "form-existing-images__thumb" %>
+            <% else %>
+              <%= image_tag url_for(image), class: "form-existing-images__thumb" %>
+            <% end %>
+            <label class="form-existing-images__remove">
+              <%= check_box_tag "post[remove_image_ids][]", image.id %>
+              <span><%= t("posts.form.remove_image") %></span>
+            </label>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="form-actions">
+    <%= button_tag t("posts.form.publish"), type: :submit, name: "next_status", value: "published", class: "btn btn--primary" %>
+    <%= button_tag(post.persisted? ? t("posts.form.save_draft") : t("posts.form.save_draft"), type: :submit, name: "next_status", value: "draft", class: "btn btn--secondary") %>
+  </div>
+<% end %>

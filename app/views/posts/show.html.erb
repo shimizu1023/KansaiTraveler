@@ -1,0 +1,99 @@
+<%= render "shared/flash" if lookup_context.exists?("shared/_flash") %>
+
+<article class="post-detail">
+  <header class="post-detail__header">
+    <div>
+      <span class="post-detail__category"><%= @post.category.name %></span>
+      <% if @post.draft? %>
+        <span class="post-detail__badge post-detail__badge--draft"><%= t("posts.card.draft") %></span>
+      <% end %>
+      <h1 class="post-detail__title"><%= truncate(@post.post, length: 60) %></h1>
+    </div>
+    <div class="post-detail__header-actions">
+      <% if user_signed_in? && current_user.id == @post.user_id %>
+        <%= link_to t("posts.show.edit"), edit_post_path(@post), class: "btn btn--secondary" %>
+        <%= button_to t("posts.show.destroy"), @post, method: :delete, form: { data: { turbo_confirm: t("posts.show.destroy_confirm") } }, class: "btn btn--danger" %>
+      <% end %>
+      <%= link_to t("posts.show.back"), posts_path, class: "btn btn--ghost" %>
+    </div>
+  </header>
+
+  <div class="post-detail__meta">
+    <span><%= t("posts.show.author", name: @post.user.display_name) %></span>
+    <span><%= l @post.created_at, format: :long %></span>
+    <span><%= t("posts.show.views", count: @post.views_count) %></span>
+    <span><%= t("posts.show.likes", count: @post.likes_count) %></span>
+  </div>
+
+  <% if @post.images.attached? %>
+    <div class="post-detail__gallery">
+      <% @post.images.each do |image| %>
+        <figure class="post-detail__image">
+          <% if image.variable? %>
+            <%= image_tag image.variant(resize_to_limit: [1200, 800]), alt: t("posts.card.image_alt", user: @post.user.display_name), loading: "lazy" %>
+          <% else %>
+            <%= image_tag url_for(image), alt: t("posts.card.image_alt", user: @post.user.display_name), loading: "lazy" %>
+          <% end %>
+        </figure>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="post-detail__content">
+    <%= simple_format(@post.post, class: "post-detail__paragraph") %>
+  </div>
+
+  <section class="post-detail__likes">
+    <div class="post-detail__likes-count">
+      ? <%= t("posts.show.likes", count: @post.likes_count) %>
+    </div>
+    <% if user_signed_in? %>
+      <% if @post.likes.exists?(user_id: current_user.id) %>
+        <%= button_to t("posts.show.unlike"), post_like_path(@post), method: :delete, class: "btn btn--secondary" %>
+      <% else %>
+        <%= button_to t("posts.show.like"), post_like_path(@post), class: "btn btn--primary" %>
+      <% end %>
+    <% else %>
+      <p class="post-detail__login-prompt"><%= link_to t("posts.show.login_to_like"), new_user_session_path %></p>
+    <% end %>
+  </section>
+
+  <section class="post-detail__comments" id="comments">
+    <h2><%= t("posts.show.comments") %></h2>
+    <% if @comments.any? %>
+      <ul class="comment-list">
+        <% @comments.each do |comment| %>
+          <li class="comment-list__item">
+            <div class="comment-list__meta">
+              <span class="comment-list__author"><%= comment.user&.display_name || t("posts.show.anonymous") %></span>
+              <time datetime="<%= comment.created_at.iso8601 %>"><%= l comment.created_at, format: :short %></time>
+            </div>
+            <p class="comment-list__body"><%= simple_format(comment.content) %></p>
+            <% if user_signed_in? && comment.user_id == current_user.id %>
+              <%= button_to t("posts.show.comment_destroy"), post_comment_path(@post, comment), method: :delete, form: { data: { turbo_confirm: t("posts.show.comment_destroy_confirm") } }, class: "btn btn--danger btn--small" %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="comment-list__empty"><%= t("posts.show.no_comments") %></p>
+    <% end %>
+
+    <% if user_signed_in? %>
+      <div class="comment-form">
+        <h3><%= t("posts.show.comment_form_title") %></h3>
+        <%= form_with model: [@post, @comment], local: true, html: { class: "comment-form__form" } do |f| %>
+          <div class="comment-form__field">
+            <%= f.label :content, t("activerecord.attributes.comment.content"), class: "comment-form__label" %>
+            <%= f.text_area :content, rows: 4, class: "comment-form__textarea", placeholder: t("posts.show.comment_placeholder") %>
+          </div>
+          <div class="comment-form__actions">
+            <%= f.submit t("posts.show.comment_submit"), class: "btn btn--primary" %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="comment-form__signin"><%= link_to t("posts.show.login_to_comment"), new_user_session_path %></p>
+    <% end %>
+  </section>
+</article>

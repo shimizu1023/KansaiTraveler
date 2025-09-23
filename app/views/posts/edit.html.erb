@@ -1,0 +1,8 @@
+<section class="form-page">
+  <h1 class="form-page__title"><%= t("posts.edit.title") %></h1>
+  <%= render "form", post: @post %>
+  <div class="form-page__footer">
+    <%= link_to t("posts.edit.view_post"), @post, class: "btn btn--secondary" if @post.persisted? %>
+    <%= link_to t("posts.form.back_to_index"), posts_path, class: "btn btn--ghost" %>
+  </div>
+</section>

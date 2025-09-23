@@ -1,0 +1,85 @@
+<%= render "shared/flash" if lookup_context.exists?("shared/_flash") %>
+
+<div class="page-header">
+  <div>
+    <h1 class="page-title"><%= t("posts.index.heading") %></h1>
+    <p class="page-description"><%= t("posts.index.description") %></p>
+  </div>
+  <% if user_signed_in? %>
+    <%= link_to t("posts.index.new_post"), new_post_path, class: "btn btn--primary" %>
+  <% end %>
+</div>
+
+<div class="post-filters">
+  <%= form_with url: posts_path, method: :get, local: true, html: { class: "filters-form" } do %>
+    <div class="filters-grid">
+      <div class="filters-field">
+        <%= label_tag :q, t("posts.index.keyword"), class: "filters-label" %>
+        <%= search_field_tag :q, @filter_params[:q], placeholder: t("posts.index.keyword_placeholder"), class: "filters-input" %>
+      </div>
+      <div class="filters-field">
+        <%= label_tag :category_id, t("posts.index.category"), class: "filters-label" %>
+        <%= select_tag :category_id,
+              options_for_select([[t("posts.index.category_all"), ""]] + @categories.map { |c| [c.name, c.id] }, @filter_params[:category_id]),
+              class: "filters-select" %>
+      </div>
+      <div class="filters-field">
+        <%= label_tag :user_id, t("posts.index.user"), class: "filters-label" %>
+        <%= select_tag :user_id,
+              options_for_select([[t("posts.index.user_all"), ""]] + @users.map { |u| [u.display_name, u.id] }, @filter_params[:user_id]),
+              class: "filters-select" %>
+      </div>
+      <div class="filters-field">
+        <%= label_tag :period, t("posts.index.period"), class: "filters-label" %>
+        <%= select_tag :period,
+              options_for_select(
+                [[t("posts.index.period_all"), ""],
+                 [t("posts.index.period_today"), "today"],
+                 [t("posts.index.period_week"), "week"],
+                 [t("posts.index.period_month"), "month"],
+                 [t("posts.index.period_year"), "year"]],
+                @filter_params[:period]
+              ),
+              class: "filters-select" %>
+      </div>
+      <div class="filters-field">
+        <%= label_tag :sort, t("posts.index.sort"), class: "filters-label" %>
+        <%= select_tag :sort,
+              options_for_select(
+                [[t("posts.index.sort_recent"), "recent"],
+                 [t("posts.index.sort_popular"), "popular"]],
+                @filter_params[:sort].presence || "recent"
+              ),
+              class: "filters-select" %>
+      </div>
+    </div>
+    <%= hidden_field_tag :status, @filter_params[:status] %>
+    <div class="filters-actions">
+      <%= submit_tag t("posts.index.search"), class: "btn btn--primary" %>
+      <% if @filter_params.to_h.compact_blank.any? %>
+        <%= link_to t("posts.index.reset"), posts_path, class: "btn btn--ghost" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<% statuses = [[nil, t("posts.index.status_all")], ["published", t("posts.index.status_published")]] %>
+<% statuses << ["draft", t("posts.index.status_draft")] if user_signed_in? %>
+<div class="status-tabs">
+  <% statuses.each do |key, label| %>
+    <% active = (key.nil? && @filter_params[:status].blank?) || @filter_params[:status] == key %>
+    <% query = request.query_parameters.merge(status: key).compact_blank %>
+    <%= link_to label, posts_path(query), class: ["status-tabs__item", (active ? "is-active" : nil)].compact.join(" ") %>
+  <% end %>
+</div>
+
+<% if @posts.any? %>
+  <div class="posts-grid">
+    <%= render @posts %>
+  </div>
+  <div class="pagination">
+    <%= paginate @posts %>
+  </div>
+<% else %>
+  <p class="empty-message"><%= t("posts.index.empty") %></p>
+<% end %>

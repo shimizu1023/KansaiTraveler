@@ -1,0 +1,41 @@
+<div id="<%= dom_id(post) %>" class="post-card">
+  <%= link_to post_path(post), class: "post-card__thumbnail" do %>
+    <% if post.cover_image.present? %>
+      <% if post.cover_image.variable? %>
+        <%= image_tag(post.cover_image.variant(resize_to_fill: [600, 320]), alt: t("posts.card.image_alt", user: post.user.display_name), loading: "lazy") %>
+      <% else %>
+        <%= image_tag url_for(post.cover_image), alt: t("posts.card.image_alt", user: post.user.display_name), loading: "lazy" %>
+      <% end %>
+    <% else %>
+      <div class="post-card__placeholder">
+        <span><%= t("posts.card.no_image") %></span>
+      </div>
+    <% end %>
+  <% end %>
+
+  <div class="post-card__body">
+    <div class="post-card__meta">
+      <span class="post-card__category"><%= post.category.name %></span>
+      <% if post.draft? && current_user&.id == post.user_id %>
+        <span class="post-card__badge post-card__badge--draft"><%= t("posts.card.draft") %></span>
+      <% end %>
+    </div>
+
+    <p class="post-card__excerpt"><%= truncate(post.post, length: 120) %></p>
+
+    <div class="post-card__footer">
+      <div class="post-card__author">
+        <span><%= post.user.display_name %></span>
+        <time datetime="<%= post.created_at.iso8601 %>"><%= l post.created_at, format: :short %></time>
+      </div>
+      <div class="post-card__stats">
+        <span class="post-card__stat" title="<%= t('posts.card.likes') %>">
+          ? <%= post.likes_count %>
+        </span>
+        <span class="post-card__stat" title="<%= t('posts.card.views') %>">
+          ?? <%= post.views_count %>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
