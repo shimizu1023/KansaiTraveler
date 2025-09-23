@@ -79,3 +79,10 @@ ja:
     destroy:
       success: コメントを削除しました
       forbidden: 自分のコメント以外は削除できません
+
+  nav:
+    home: ホーム
+    new_post: 新規投稿
+    login: ログイン
+    logout: ログアウト
+    signup: 新規登録
