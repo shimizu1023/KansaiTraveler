@@ -72,6 +72,18 @@ ja:
     alerts:
       unauthorized_draft: 下書きは作者のみ閲覧できます
       forbidden: 権限がありません
+    new:
+      title: 新規投稿
+    form:
+      error_heading: "%{count}件のエラーがあります"
+      category_prompt: カテゴリーを選択
+      images_label: 画像
+      images_hint: "最大%{limit}枚の画像をアップロードできます（PNG/JPEG/GIF、5MBまで）"
+      current_images: 既存の画像
+      remove_image: 削除する
+      publish: 公開する
+      save_draft: 下書きとして保存
+      back_to_index: 一覧に戻る
 
   comments:
     create:
