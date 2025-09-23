@@ -14,3 +14,68 @@ ja:
       status:
         published: 公開
         draft: 下書き
+
+  posts:
+    index:
+      heading: 投稿一覧
+      description: 最新の投稿をチェックしましょう
+      new_post: 新規投稿
+      keyword: キーワード
+      keyword_placeholder: キーワードで検索
+      category: カテゴリー
+      category_all: すべて
+      user: ユーザー
+      user_all: すべて
+      period: 期間
+      period_all: すべて
+      period_today: 今日
+      period_week: 1週間
+      period_month: 1ヶ月
+      period_year: 1年
+      sort: 並び順
+      sort_recent: 新着順
+      sort_popular: 人気順
+      search: 検索
+      reset: 条件をリセット
+      status_all: すべて
+      status_published: 公開
+      status_draft: 下書き
+      empty: 該当する投稿はありません
+    card:
+      image_alt: "%{user}さんの投稿画像"
+      no_image: 画像なし
+      draft: 下書き
+      likes: いいね
+      views: 閲覧数
+    show:
+      edit: 編集
+      destroy: 削除
+      destroy_confirm: 本当に削除しますか？
+      back: 一覧に戻る
+      author: 作成者: %{name}
+      views: 閲覧数: %{count}
+      likes: いいね: %{count}
+      login_to_like: いいねするにはログインしてください
+      comments: コメント
+      anonymous: 匿名
+      comment_destroy: コメントを削除
+      comment_destroy_confirm: このコメントを削除しますか？
+      no_comments: まだコメントはありません
+      comment_form_title: コメントを投稿
+      comment_placeholder: コメントを入力してください
+      comment_submit: 送信
+      login_to_comment: コメントするにはログインしてください
+    notices:
+      created: "%{status}として投稿を作成しました"
+      updated: "%{status}として投稿を更新しました"
+      destroyed: 投稿を削除しました
+    alerts:
+      unauthorized_draft: 下書きは作者のみ閲覧できます
+      forbidden: 権限がありません
+
+  comments:
+    create:
+      success: コメントを投稿しました
+    destroy:
+      success: コメントを削除しました
+      forbidden: 自分のコメント以外は削除できません
