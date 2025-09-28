@@ -19,7 +19,7 @@
   </header>
 
   <div class="post-detail__meta">
-    <span><%= t("posts.show.author", name: @post.user.display_name) %></span>
+    <span><%= t("posts.show.author_html", name: link_to(@post.user.display_name, user_path(@post.user), class: "post-detail__author-link")).html_safe %></span>
     <span><%= l @post.created_at, format: :long %></span>
     <span><%= t("posts.show.views", count: @post.views_count) %></span>
     <span><%= t("posts.show.likes", count: @post.likes_count) %></span>
@@ -65,7 +65,11 @@
         <% @comments.each do |comment| %>
           <li class="comment-list__item">
             <div class="comment-list__meta">
-              <span class="comment-list__author"><%= comment.user&.display_name || t("posts.show.anonymous") %></span>
+              <% if comment.user.present? %>
+                <%= link_to comment.user.display_name, user_path(comment.user), class: "comment-list__author" %>
+              <% else %>
+                <span class="comment-list__author"><%= t("posts.show.anonymous") %></span>
+              <% end %>
               <time datetime="<%= comment.created_at.iso8601 %>"><%= l comment.created_at, format: :short %></time>
             </div>
             <p class="comment-list__body"><%= simple_format(comment.content) %></p>
@@ -97,3 +101,4 @@
     <% end %>
   </section>
 </article>
+

@@ -23,11 +23,16 @@
     <% if user_signed_in? && current_user.id != @user.id %>
       <div class="user-profile__actions">
         <% if current_user.following?(@user) %>
-          <%= button_to t("users.show.unfollow"), relationship_path(@user), method: :delete, class: "btn btn--secondary" %>
+          <%= button_to t("users.show.unfollow"), user_relationship_path(@user), method: :delete, class: "btn btn--secondary" %>
         <% else %>
-          <%= button_to t("users.show.follow"), relationships_path(user_id: @user.id), method: :post, class: "btn btn--primary" %>
+          <%= button_to t("users.show.follow"), user_relationship_path(@user), class: "btn btn--primary" %>
         <% end %>
-        <%= link_to t("users.show.send_message"), conversations_path(recipient_id: @user.id), method: :post, class: "btn btn--ghost" %>
+
+        <% if current_user.mutual_follow?(@user) %>
+          <%= link_to t("users.show.send_message"), conversations_path(recipient_id: @user.id), method: :post, class: "btn btn--ghost" %>
+        <% else %>
+          <span class="user-profile__mutual-hint"><%= t("users.show.mutual_follow_hint") %></span>
+        <% end %>
       </div>
     <% end %>
   </header>

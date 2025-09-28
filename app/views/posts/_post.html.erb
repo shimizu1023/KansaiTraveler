@@ -25,7 +25,7 @@
 
     <div class="post-card__footer">
       <div class="post-card__author">
-        <span><%= post.user.display_name %></span>
+        <span><%= link_to post.user.display_name, user_path(post.user), class: "post-card__author-link" %></span>
         <time datetime="<%= post.created_at.iso8601 %>"><%= l post.created_at, format: :short %></time>
       </div>
       <div class="post-card__stats">
@@ -39,3 +39,4 @@
     </div>
   </div>
 </div>
+

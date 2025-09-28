@@ -1,0 +1,8 @@
+en:
+  nav:
+    home: "Home"
+    new_post: "New Post"
+    login: "Log in"
+    logout: "Log out"
+    signup: "Sign up"
+    conversations: "Direct Messages"

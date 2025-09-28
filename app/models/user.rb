@@ -18,4 +18,14 @@ class User < ApplicationRecord
   def following?(other_user)
     followings.exists?(other_user.id)
   end
+
+  def mutual_follow?(other_user)
+    return false if other_user.blank? || other_user == self
+
+    following?(other_user) && other_user.following?(self)
+  end
+
+  def mutual_followees
+    followings.includes(:followers).select { |other| mutual_follow?(other) }
+  end
 end

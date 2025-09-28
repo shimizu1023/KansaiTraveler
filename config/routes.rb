@@ -5,7 +5,9 @@ Rails.application.routes.draw do
   devise_for :users
 
   # Users
-  resources :users, only: [:show]
+  resources :users, only: [:show] do
+    resource :relationship, only: [:create, :destroy]
+  end
 
   # Root
   root to: "posts#index"
@@ -16,11 +18,9 @@ Rails.application.routes.draw do
     resource :like, only: [:create, :destroy]
   end
 
-  # Follow relationships
-  resources :relationships, only: [:create, :destroy]
-
   # Direct messages
   resources :conversations, only: [:index, :show, :create] do
     resources :messages, only: [:create]
   end
 end
+
