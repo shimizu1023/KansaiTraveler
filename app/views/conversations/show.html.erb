@@ -1,4 +1,6 @@
-﻿<%= render "shared/flash" if lookup_context.exists?("shared/_flash") %>
+﻿<% content_for :full_width, true %>
+
+<%= render "shared/flash" if lookup_context.exists?("shared/_flash") %>
 
 <section class="dm-room">
   <header class="dm-room__header">
@@ -33,4 +35,3 @@
     <% end %>
   </div>
 </section>
-

@@ -1,8 +1,10 @@
-﻿class Post < ApplicationRecord
+class Post < ApplicationRecord
+  # 添付画像や公開状態を持つ旅行記の投稿モデル
   MAX_IMAGE_COUNT = 6
   MAX_IMAGE_SIZE = 5.megabytes
   MAX_CONTENT_LENGTH = 2000
 
+  # フォームで削除指定された画像 ID を一時的に保持するためのアクセサ
   attr_accessor :remove_image_ids
 
   belongs_to :user
@@ -14,6 +16,7 @@
 
   enum status: { published: 0, draft: 1 }
 
+  # 投稿本文・公開状態・カテゴリの必須チェックと添付画像のバリデーション
   validates :post, presence: true, length: { maximum: MAX_CONTENT_LENGTH }
   validates :status, presence: true
   validates :category, presence: true
@@ -21,6 +24,7 @@
   validate :validate_images_content_type
   validate :validate_images_byte_size
 
+  # 一覧表示で使用する各種スコープ
   scope :published_only, -> { where(status: statuses[:published]) }
   scope :draft_only, -> { where(status: statuses[:draft]) }
   scope :visible_to, lambda { |user|
@@ -62,23 +66,27 @@
 
   paginates_per 9 if respond_to?(:paginates_per)
 
+  # 投稿のサムネイルとして最初の画像を返す
   def cover_image
     images.first if images.attached?
   end
 
   private
 
+  # バリデーション対象の添付画像から削除指定分を除外する
   def attachments_for_validation
     ids_to_remove = Array(remove_image_ids).map(&:to_s)
     images.attachments.reject { |attachment| ids_to_remove.include?(attachment.id.to_s) }
   end
 
+  # 添付画像の枚数が上限を超えていないか確認する
   def validate_images_count
     return unless attachments_for_validation.size > MAX_IMAGE_COUNT
 
     errors.add(:images, :too_many, count: MAX_IMAGE_COUNT)
   end
 
+  # 添付画像のファイル形式をチェックする
   def validate_images_content_type
     invalid = attachments_for_validation.any? do |attachment|
       !attachment.content_type.in?(%w[image/png image/jpeg image/jpg image/gif])
@@ -86,6 +94,7 @@
     errors.add(:images, :invalid_content_type) if invalid
   end
 
+  # 添付画像のファイルサイズが制限内か確認する
   def validate_images_byte_size
     oversize = attachments_for_validation.any? do |attachment|
       attachment.byte_size.present? && attachment.byte_size > MAX_IMAGE_SIZE

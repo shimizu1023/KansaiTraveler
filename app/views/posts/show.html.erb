@@ -1,4 +1,4 @@
-<%= render "shared/flash" if lookup_context.exists?("shared/_flash") %>
+﻿<%= render "shared/flash" if lookup_context.exists?("shared/_flash") %>
 
 <article class="post-detail">
   <header class="post-detail__header">
@@ -19,7 +19,7 @@
   </header>
 
   <div class="post-detail__meta">
-    <span><%= t("posts.show.author_html", name: link_to(@post.user.display_name, user_path(@post.user), class: "post-detail__author-link")).html_safe %></span>
+    <span><%= link_to @post.user.display_name, user_path(@post.user), class: "post-detail__author-link" %></span>
     <span><%= l @post.created_at, format: :long %></span>
     <span><%= t("posts.show.views", count: @post.views_count) %></span>
     <span><%= t("posts.show.likes", count: @post.likes_count) %></span>
@@ -45,7 +45,8 @@
 
   <section class="post-detail__likes">
     <div class="post-detail__likes-count">
-      ? <%= t("posts.show.likes", count: @post.likes_count) %>
+      <span class="post-detail__likes-value"><%= @post.likes_count %></span>
+      <span class="post-detail__likes-label"><%= t("posts.show.likes", count: @post.likes_count) %></span>
     </div>
     <% if user_signed_in? %>
       <% if @post.likes.exists?(user_id: current_user.id) %>
@@ -101,4 +102,5 @@
     <% end %>
   </section>
 </article>
+
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
   <head>
     <title>KansaiTraveler</title>
@@ -12,20 +12,37 @@
 
   <body>
     <header class="site-header">
-      <nav class="site-nav">
-        <%= link_to t("nav.home"), root_path, class: "nav-link" %>
-        <% if user_signed_in? %>
-          <%= link_to current_user.display_name, user_path(current_user), class: "nav-link" %>
-          <%= link_to t("nav.new_post"), new_post_path, class: "nav-link" %>
-          <%= link_to t("nav.conversations"), conversations_path, class: "nav-link" %>
-          <%= button_to t("nav.logout"), destroy_user_session_path, method: :delete, class: "nav-button" %>
-        <% else %>
-          <%= link_to t("nav.login"), new_user_session_path, class: "nav-link" %>
-          <%= link_to t("nav.signup"), new_user_registration_path, class: "nav-link" %>
-        <% end %>
-      </nav>
+      <div class="site-header__inner">
+        <%= link_to "KansaiTraveler", root_path, class: "brand" %>
+        <nav class="global-nav">
+          <%= link_to t("nav.home"), root_path, class: ["global-nav__link", current_page?(root_path) ? "is-active" : nil].compact.join(" ") %>
+          <% if user_signed_in? %>
+            <%= link_to t("nav.new_post"), new_post_path, class: ["global-nav__link", current_page?(new_post_path) ? "is-active" : nil].compact.join(" ") %>
+            <%= link_to t("nav.conversations"), conversations_path, class: ["global-nav__link", controller_name == "conversations" ? "is-active" : nil].compact.join(" ") %>
+          <% end %>
+        </nav>
+        <div class="user-actions">
+          <% if user_signed_in? %>
+            <%= link_to current_user.display_name, user_path(current_user), class: "global-nav__link" %>
+            <%= button_to t("nav.logout"), destroy_user_session_path, method: :delete, class: "btn btn--ghost" %>
+          <% else %>
+            <%= link_to t("nav.login"), new_user_session_path, class: "btn btn--secondary" %>
+            <%= link_to t("nav.signup"), new_user_registration_path, class: "btn btn--primary" %>
+          <% end %>
+        </div>
+      </div>
     </header>
 
-    <%= yield %>
+    <main class="site-main">
+      <% if content_for?(:full_width) %>
+        <%= yield %>
+      <% else %>
+        <div class="layout-container">
+          <%= yield %>
+        </div>
+      <% end %>
+    </main>
+
+    <div class="footer-space"></div>
   </body>
 </html>

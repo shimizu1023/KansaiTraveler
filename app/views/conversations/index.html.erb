@@ -1,4 +1,6 @@
-﻿<%= render "shared/flash" if lookup_context.exists?("shared/_flash") %>
+﻿<% content_for :full_width, true %>
+
+<%= render "shared/flash" if lookup_context.exists?("shared/_flash") %>
 
 <section class="dm-index">
   <header class="dm-index__header">
