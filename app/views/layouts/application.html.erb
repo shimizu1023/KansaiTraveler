@@ -18,6 +18,7 @@
           <%= link_to t("nav.home"), root_path, class: ["global-nav__link", current_page?(root_path) ? "is-active" : nil].compact.join(" ") %>
           <% if user_signed_in? %>
             <%= link_to t("nav.new_post"), new_post_path, class: ["global-nav__link", current_page?(new_post_path) ? "is-active" : nil].compact.join(" ") %>
+            <%= link_to t("nav.bookmarks"), posts_path(status: "bookmarked"), class: ["global-nav__link", (controller_name == "posts" && params[:status] == "bookmarked") ? "is-active" : nil].compact.join(" ") %>
             <%= link_to t("nav.conversations"), conversations_path, class: ["global-nav__link", controller_name == "conversations" ? "is-active" : nil].compact.join(" ") %>
           <% end %>
         </nav>

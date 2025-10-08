@@ -32,7 +32,7 @@ ja:
       period_week: 1週間
       period_month: 1ヶ月
       period_year: 1年
-      sort: 並び順
+      sort: 並び替え
       sort_recent: 新着順
       sort_popular: 人気順
       search: 検索
@@ -40,6 +40,7 @@ ja:
       status_all: すべて
       status_published: 公開
       status_draft: 下書き
+      status_bookmarked: ブックマーク
       empty: 該当する投稿はありません
     card:
       image_alt: "%{user}さんの投稿画像"
@@ -47,6 +48,7 @@ ja:
       draft: 下書き
       likes: いいね
       views: 閲覧数
+      bookmarks: ブックマーク
     show:
       edit: 編集
       destroy: 削除
@@ -55,7 +57,11 @@ ja:
       author: "作成者: %{name}"
       views: "閲覧数: %{count}"
       likes: "いいね: %{count}"
+      bookmarks: "ブックマーク: %{count}"
       login_to_like: いいねするにはログインしてください
+      login_to_interact: いいね・ブックマークするにはログインしてください
+      bookmark: ブックマークする
+      unbookmark: ブックマークを外す
       comments: コメント
       anonymous: 匿名
       comment_destroy: コメントを削除
@@ -95,6 +101,7 @@ ja:
   nav:
     home: ホーム
     new_post: 新規投稿
+    bookmarks: ブックマーク
     login: ログイン
     logout: ログアウト
     signup: 新規登録

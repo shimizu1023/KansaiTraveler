@@ -2,6 +2,7 @@ en:
   nav:
     home: "Home"
     new_post: "New Post"
+    bookmarks: "Bookmarks"
     login: "Log in"
     logout: "Log out"
     signup: "Sign up"

@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :posts do
     resources :comments, only: [:create, :destroy]
     resource :like, only: [:create, :destroy]
+    resource :bookmark, only: [:create, :destroy]
   end
 
   # Direct messages

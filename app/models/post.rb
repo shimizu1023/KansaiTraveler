@@ -11,6 +11,8 @@ class Post < ApplicationRecord
   belongs_to :category
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
+  has_many :bookmarks, dependent: :destroy
+  has_many :bookmarked_users, through: :bookmarks, source: :user
 
   has_many_attached :images
 
@@ -27,6 +29,7 @@ class Post < ApplicationRecord
   # 一覧表示で使用する各種スコープ
   scope :published_only, -> { where(status: statuses[:published]) }
   scope :draft_only, -> { where(status: statuses[:draft]) }
+  scope :bookmarked_by, ->(user) { user.present? ? joins(:bookmarks).where(bookmarks: { user_id: user.id }) : none }
   scope :visible_to, lambda { |user|
     published = arel_table[:status].eq(statuses[:published])
     return where(published) unless user
@@ -69,6 +72,13 @@ class Post < ApplicationRecord
   # 投稿のサムネイルとして最初の画像を返す
   def cover_image
     images.first if images.attached?
+  end
+
+  # 指定ユーザーがこの投稿をブックマーク済みか判定する
+  def bookmarked_by?(user)
+    return false if user.blank?
+
+    bookmarks.exists?(user_id: user.id)
   end
 
   private

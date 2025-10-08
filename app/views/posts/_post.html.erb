@@ -37,6 +37,10 @@
           <span class="post-card__stat-value"><%= post.views_count %></span>
           <span class="post-card__stat-label"><%= t("posts.card.views") %></span>
         </span>
+        <span class="post-card__stat" aria-label="<%= t("posts.card.bookmarks") %>">
+          <span class="post-card__stat-value"><%= post.bookmarks_count %></span>
+          <span class="post-card__stat-label"><%= t("posts.card.bookmarks") %></span>
+        </span>
       </div>
     </div>
   </div>

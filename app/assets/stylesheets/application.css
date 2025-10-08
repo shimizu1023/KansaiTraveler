@@ -557,6 +557,7 @@ textarea:focus {
   color: var(--color-text);
 }
 
+
 .post-detail__likes {
   display: flex;
   align-items: center;
@@ -564,6 +565,28 @@ textarea:focus {
   padding: 18px 20px;
   background: rgba(47, 93, 98, 0.08);
   border-radius: var(--radius-md);
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.post-detail__metrics {
+  display: flex;
+  gap: 20px;
+}
+
+.post-detail__metric {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-detail__engagement-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.post-detail__engagement-buttons .btn {
+  white-space: nowrap;
 }
 
 .post-detail__likes-value {

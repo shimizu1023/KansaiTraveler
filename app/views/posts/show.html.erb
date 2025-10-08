@@ -44,21 +44,33 @@
   </div>
 
   <section class="post-detail__likes">
-    <div class="post-detail__likes-count">
-      <span class="post-detail__likes-value"><%= @post.likes_count %></span>
-      <span class="post-detail__likes-label"><%= t("posts.show.likes", count: @post.likes_count) %></span>
+    <div class="post-detail__likes-count post-detail__metrics">
+      <div class="post-detail__metric">
+        <span class="post-detail__likes-value"><%= @post.likes_count %></span>
+        <span class="post-detail__likes-label"><%= t("posts.show.likes", count: @post.likes_count) %></span>
+      </div>
+      <div class="post-detail__metric">
+        <span class="post-detail__likes-value"><%= @post.bookmarks_count %></span>
+        <span class="post-detail__likes-label"><%= t("posts.show.bookmarks", count: @post.bookmarks_count) %></span>
+      </div>
     </div>
     <% if user_signed_in? %>
-      <% if @post.likes.exists?(user_id: current_user.id) %>
-        <%= button_to t("posts.show.unlike"), post_like_path(@post), method: :delete, class: "btn btn--secondary" %>
-      <% else %>
-        <%= button_to t("posts.show.like"), post_like_path(@post), class: "btn btn--primary" %>
-      <% end %>
+      <div class="post-detail__engagement-buttons">
+        <% if @post.likes.exists?(user_id: current_user.id) %>
+          <%= button_to t("posts.show.unlike"), post_like_path(@post), method: :delete, class: "btn btn--secondary" %>
+        <% else %>
+          <%= button_to t("posts.show.like"), post_like_path(@post), class: "btn btn--primary" %>
+        <% end %>
+        <% if @post.bookmarked_by?(current_user) %>
+          <%= button_to t("posts.show.unbookmark"), post_bookmark_path(@post), method: :delete, class: "btn btn--ghost" %>
+        <% else %>
+          <%= button_to t("posts.show.bookmark"), post_bookmark_path(@post), class: "btn btn--ghost" %>
+        <% end %>
+      </div>
     <% else %>
-      <p class="post-detail__login-prompt"><%= link_to t("posts.show.login_to_like"), new_user_session_path %></p>
+      <p class="post-detail__login-prompt"><%= link_to t("posts.show.login_to_interact"), new_user_session_path %></p>
     <% end %>
   </section>
-
   <section class="post-detail__comments" id="comments">
     <h2><%= t("posts.show.comments") %></h2>
     <% if @comments.any? %>

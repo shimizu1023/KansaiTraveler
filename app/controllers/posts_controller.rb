@@ -74,7 +74,7 @@ class PostsController < ApplicationController
   private
 
   def set_post
-    @post = Post.includes(:user, :category, images_attachments: :blob).find(params[:id])
+    @post = Post.includes(:user, :category, :bookmarks, images_attachments: :blob).find(params[:id])
   end
 
   # 未公開投稿の閲覧権限を確認する
@@ -108,6 +108,8 @@ class PostsController < ApplicationController
               user_signed_in? ? scope.draft_only.where(user_id: current_user.id) : scope.none
             when "published"
               scope.published_only
+            when "bookmarked"
+              user_signed_in? ? scope.bookmarked_by(current_user) : scope.none
             else
               scope.visible_to(current_user)
             end

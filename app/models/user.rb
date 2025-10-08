@@ -6,6 +6,8 @@ class User < ApplicationRecord
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
+  has_many :bookmarks, dependent: :destroy
+  has_many :bookmarked_posts, through: :bookmarks, source: :post
 
   has_many :active_relationships, class_name: "Relationship", foreign_key: :follower_id, dependent: :destroy
   has_many :passive_relationships, class_name: "Relationship", foreign_key: :followed_id, dependent: :destroy
@@ -20,6 +22,13 @@ class User < ApplicationRecord
   # 指定ユーザーをフォローしているか確認する
   def following?(other_user)
     followings.exists?(other_user.id)
+  end
+
+  # 指定した投稿をブックマーク済みかどうかを確認する
+  def bookmarked?(post)
+    return false if post.blank?
+
+    bookmarks.exists?(post_id: post.id)
   end
 
   # 相互フォローかどうかを判定する（自分自身は除外）
