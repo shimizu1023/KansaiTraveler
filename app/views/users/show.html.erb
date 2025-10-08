@@ -1,0 +1,54 @@
+<%= render "shared/flash" if lookup_context.exists?("shared/_flash") %>
+
+<div class="user-profile">
+  <header class="user-profile__header">
+    <div class="user-profile__info">
+      <h1 class="user-profile__name"><%= @user.display_name %></h1>
+      <% if @user.profile.present? %>
+        <p class="user-profile__bio"><%= simple_format(@user.profile) %></p>
+      <% end %>
+      <div class="user-profile__stats">
+        <span class="user-profile__stat">
+          <%= t("users.show.posts_count", count: @user.posts.count) %>
+        </span>
+        <span class="user-profile__stat">
+          <%= t("users.show.followers_count", count: @user.followers.count) %>
+        </span>
+        <span class="user-profile__stat">
+          <%= t("users.show.following_count", count: @user.followings.count) %>
+        </span>
+      </div>
+    </div>
+    
+    <% if user_signed_in? && current_user.id != @user.id %>
+      <div class="user-profile__actions">
+        <% if current_user.following?(@user) %>
+          <%= button_to t("users.show.unfollow"), user_relationship_path(@user), method: :delete, class: "btn btn--secondary" %>
+        <% else %>
+          <%= button_to t("users.show.follow"), user_relationship_path(@user), class: "btn btn--primary" %>
+        <% end %>
+
+        <% if current_user.mutual_follow?(@user) %>
+          <%= link_to t("users.show.send_message"), conversations_path(recipient_id: @user.id), method: :post, class: "btn btn--ghost" %>
+        <% else %>
+          <span class="user-profile__mutual-hint"><%= t("users.show.mutual_follow_hint") %></span>
+        <% end %>
+      </div>
+    <% end %>
+  </header>
+
+  <section class="user-profile__posts">
+    <h2><%= t("users.show.posts_heading") %></h2>
+    
+    <% if @posts.any? %>
+      <div class="posts-grid">
+        <%= render @posts %>
+      </div>
+      <div class="pagination">
+        <%= paginate @posts %>
+      </div>
+    <% else %>
+      <p class="empty-message"><%= t("users.show.no_posts") %></p>
+    <% end %>
+  </section>
+</div>

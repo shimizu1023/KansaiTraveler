@@ -1,0 +1,20 @@
+en:
+  conversations:
+    index:
+      title: "Direct Messages"
+      subtitle: "Mutual followers you can chat with."
+      empty: "No conversations yet. Visit a profile, follow each other, and tap \"Send Message\" to start."
+      guide: "Once you follow each other, the \"Send Message\" button appears on the user page and opens a new room."
+      no_messages: "No messages yet"
+      hint: "Pick a room to view the beach-style chat screen and send your message."
+      start_title: "Start a new chat"
+      start_description: "These mutual followers don’t have a conversation yet."
+      start_button: "Start chatting with %{name}"
+      start_note: "We’ll create the room and take you there instantly."
+    show:
+      title: "Conversation with %{name}"
+      subtitle: "Enjoy your chat together"
+      empty: "No messages yet"
+    form:
+      placeholder: "Type your message here"
+      submit: "Send"

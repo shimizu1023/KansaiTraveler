@@ -1,0 +1,56 @@
+﻿<% content_for :full_width, true %>
+
+<%= render "shared/flash" if lookup_context.exists?("shared/_flash") %>
+
+<section class="dm-index">
+  <header class="dm-index__header">
+    <h1 class="dm-index__title"><%= t("conversations.index.title") %></h1>
+    <p class="dm-index__subtitle"><%= t("conversations.index.subtitle") %></p>
+  </header>
+
+  <% if @conversations.any? %>
+    <nav class="dm-tabs">
+      <ul class="dm-tabs__list">
+        <% @conversations.each do |conversation| %>
+          <% counterpart = conversation.counterpart_for(current_user) %>
+          <% last_message = conversation.messages.last %>
+          <li class="dm-tabs__item">
+            <%= link_to conversation_path(conversation), class: "dm-tabs__link" do %>
+              <span class="dm-tabs__name"><%= counterpart.display_name %></span>
+              <% if last_message.present? %>
+                <span class="dm-tabs__preview"><%= truncate(last_message.content, length: 40) %></span>
+                <time class="dm-tabs__time" datetime="<%= last_message.created_at.iso8601 %>"><%= l last_message.created_at, format: :short %></time>
+              <% else %>
+                <span class="dm-tabs__preview"><%= t("conversations.index.no_messages") %></span>
+              <% end %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </nav>
+    <p class="dm-index__hint"><%= t("conversations.index.hint") %></p>
+  <% end %>
+
+  <% if @startable_users.any? %>
+    <section class="dm-start">
+      <header class="dm-start__header">
+        <h2 class="dm-start__title"><%= t("conversations.index.start_title") %></h2>
+        <p class="dm-start__description"><%= t("conversations.index.start_description") %></p>
+      </header>
+      <ul class="dm-start__list">
+        <% @startable_users.each do |user| %>
+          <li class="dm-start__item">
+            <div class="dm-start__user">
+              <span class="dm-start__name"><%= user.display_name %></span>
+              <%= button_to t("conversations.index.start_button", name: user.display_name), conversations_path(recipient_id: user.id), method: :post, class: "btn btn--primary dm-start__button" %>
+            </div>
+            <p class="dm-start__note"><%= t("conversations.index.start_note") %></p>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+  <% elsif @conversations.blank? %>
+    <p class="dm-index__empty"><%= t("conversations.index.empty") %></p>
+    <p class="dm-index__guide"><%= t("conversations.index.guide") %></p>
+  <% end %>
+</section>

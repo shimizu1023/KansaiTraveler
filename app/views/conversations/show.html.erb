@@ -1,0 +1,37 @@
+﻿<% content_for :full_width, true %>
+
+<%= render "shared/flash" if lookup_context.exists?("shared/_flash") %>
+
+<section class="dm-room">
+  <header class="dm-room__header">
+    <h1 class="dm-room__title"><%= t("conversations.show.title", name: @counterpart.display_name) %></h1>
+    <p class="dm-room__subtitle"><%= t("conversations.show.subtitle") %></p>
+  </header>
+
+  <div class="dm-room__panel">
+    <% if @messages.any? %>
+      <ul class="dm-room__messages">
+        <% @messages.each do |message| %>
+          <% own_message = message.user_id == current_user.id %>
+          <li class="dm-room__message <%= own_message ? 'dm-room__message--own' : 'dm-room__message--other' %>">
+            <div class="dm-room__bubble">
+              <%= simple_format(message.content, {}, wrapper_tag: "span") %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="dm-room__empty"><%= t("conversations.show.empty") %></p>
+    <% end %>
+  </div>
+
+  <div class="dm-room__form">
+    <%= form_with model: [@conversation, @message], local: true, html: { class: "dm-room__form-body" } do |f| %>
+      <%= f.text_area :content,
+                      rows: 1,
+                      class: "dm-room__input",
+                      placeholder: t("conversations.form.placeholder") %>
+      <%= f.submit t("conversations.form.submit"), class: "dm-room__submit" %>
+    <% end %>
+  </div>
+</section>

@@ -1,4 +1,4 @@
-<div id="<%= dom_id(post) %>" class="post-card">
+﻿<div id="<%= dom_id(post) %>" class="post-card">
   <%= link_to post_path(post), class: "post-card__thumbnail" do %>
     <% if post.cover_image.present? %>
       <% if post.cover_image.variable? %>
@@ -25,17 +25,25 @@
 
     <div class="post-card__footer">
       <div class="post-card__author">
-        <span><%= post.user.display_name %></span>
+        <span><%= link_to post.user.display_name, user_path(post.user), class: "post-card__author-link" %></span>
         <time datetime="<%= post.created_at.iso8601 %>"><%= l post.created_at, format: :short %></time>
       </div>
       <div class="post-card__stats">
-        <span class="post-card__stat" title="<%= t('posts.card.likes') %>">
-          ? <%= post.likes_count %>
+        <span class="post-card__stat" aria-label="<%= t("posts.card.likes") %>">
+          <span class="post-card__stat-value"><%= post.likes_count %></span>
+          <span class="post-card__stat-label"><%= t("posts.card.likes") %></span>
         </span>
-        <span class="post-card__stat" title="<%= t('posts.card.views') %>">
-          ?? <%= post.views_count %>
+        <span class="post-card__stat" aria-label="<%= t("posts.card.views") %>">
+          <span class="post-card__stat-value"><%= post.views_count %></span>
+          <span class="post-card__stat-label"><%= t("posts.card.views") %></span>
+        </span>
+        <span class="post-card__stat" aria-label="<%= t("posts.card.bookmarks") %>">
+          <span class="post-card__stat-value"><%= post.bookmarks_count %></span>
+          <span class="post-card__stat-label"><%= t("posts.card.bookmarks") %></span>
         </span>
       </div>
     </div>
   </div>
 </div>
+
+

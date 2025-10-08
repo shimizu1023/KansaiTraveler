@@ -1,7 +1,9 @@
 class CommentsController < ApplicationController
+  # コメント操作はログイン済みユーザーのみ許可する
   before_action :authenticate_user!
   before_action :set_post
 
+  # 投稿に紐づくコメントを作成する
   def create
     @comment = @post.comments.build(comment_params.merge(user: current_user))
     if @comment.save
@@ -12,6 +14,7 @@ class CommentsController < ApplicationController
     end
   end
 
+  # 自分のコメントのみを削除できるようにする
   def destroy
     comment = @post.comments.find(params[:id])
     unless comment.user_id == current_user.id
@@ -25,10 +28,12 @@ class CommentsController < ApplicationController
 
   private
 
+  # コメント対象の投稿を読み込む
   def set_post
     @post = Post.find(params[:post_id])
   end
 
+  # フォームから許可された項目だけを受け取る
   def comment_params
     params.require(:comment).permit(:content)
   end

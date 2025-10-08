@@ -1,0 +1,11 @@
+en:
+  posts:
+    index:
+      status_bookmarked: "Bookmarked"
+    card:
+      bookmarks: "Bookmarks"
+    show:
+      bookmarks: "Bookmarks: %{count}"
+      bookmark: "Add Bookmark"
+      unbookmark: "Remove Bookmark"
+      login_to_interact: "Log in to like or bookmark"

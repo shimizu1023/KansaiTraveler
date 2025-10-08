@@ -64,7 +64,10 @@
 </div>
 
 <% statuses = [[nil, t("posts.index.status_all")], ["published", t("posts.index.status_published")]] %>
-<% statuses << ["draft", t("posts.index.status_draft")] if user_signed_in? %>
+<% if user_signed_in? %>
+  <% statuses << ["bookmarked", t("posts.index.status_bookmarked")] %>
+  <% statuses << ["draft", t("posts.index.status_draft")] %>
+<% end %>
 <div class="status-tabs">
   <% statuses.each do |key, label| %>
     <% active = (key.nil? && @filter_params[:status].blank?) || @filter_params[:status] == key %>
