@@ -32,13 +32,13 @@ KansaiTraveler は、関西エリアの旅行先での思い出や体験を共�
 
 ## 利用方法
 1. ユーザー登録またはログイン  
-   （ログイン画面スクリーンショット予定）  
+   ![ログイン画面](docs/images/login.png)  
 2. 訪れた場所を写真や感想とともに投稿  
-   （新規投稿画面スクリーンショット予定）  
+   ![新規投稿画面](docs/images/new_post.png)  
 3. 他のユーザーの投稿を閲覧し、気に入った投稿に「いいね」やコメントを残す  
-   （投稿詳細画面スクリーンショット予定）  
+   ![投稿詳細画面](docs/images/post_detail.png)  
 4. キーワードやカテゴリ検索で目的地に合わせた投稿をチェック  
-   （投稿一覧画面スクリーンショット予定）  
+   ![投稿一覧画面](docs/images/post_index.png)  
 
 ## 機能一覧
 - 基本的な CRUD 機能（スポット投稿／編集／削除）  
@@ -54,10 +54,10 @@ KansaiTraveler は、関西エリアの旅行先での思い出や体験を共�
 - バリデーション  
 - ページネーション  
 - レスポンシブ対応（スマホ・PC両方で閲覧可能）  
-
+.
 ## 開発環境
-- **OS**：Mac + ターミナル / Windows10 or 11 + Git Bash  
+- **OS**：Windows10 or 11 + Git Bash  
 - **言語**：HTML / CSS / JavaScript / Ruby  
 - **フレームワーク**：Ruby on Rails  
-- **JSライブラリ**：jQuery  
-- **データベース**：PostgreSQL  
+- **JSライブラリ**：Hotwire 
+- **データベース**：sqlite3
