@@ -63,7 +63,7 @@
   <% end %>
 </div>
 
-<% statuses = [[nil, t("posts.index.status_all")], ["published", t("posts.index.status_published")]] %>
+<% statuses = [[nil, t("posts.index.status_all")]] %>
 <% if user_signed_in? %>
   <% statuses << ["bookmarked", t("posts.index.status_bookmarked")] %>
   <% statuses << ["draft", t("posts.index.status_draft")] %>
