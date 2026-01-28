@@ -1,12 +1,12 @@
 databases:
-  - name: 設定したデータベース名
-    databaseName: 設定したデータベース名（Info内のConnectionsにあるDatabaseの値）
-    user: 設定したユーザ名
+  - name: KansaiTraveler
+    databaseName: kansaitraveler_production
+    user: kansai_user
     region: Oregon
 
 services:
   - type: web
-    name: 設定したデータベース名
+    name: KansaiTraveler
     env: ruby
     region: Oregon
     plan: free
@@ -16,7 +16,7 @@ services:
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: 設定したデータベース名
+          name: KansaiTraveler
           property: connectionString
       - key: RAILS_MASTER_KEY
         sync: false
